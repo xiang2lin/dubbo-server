@@ -13,11 +13,13 @@
         <!-- 一般会定义成项目的名称-->
         <dubbo:application name="dubbo-server"  owner="xiang"/>
         <!-- 注册中心, 如果不需要 address"N/A"-->
-        <dubbo:registry address="zookeeper://192.168.19.128:2181"/>
+        <dubbo:registry id="zk1" address="zookeeper://192.168.19.128:2181"/>
+        <!--多注册中心-->
+        <dubbo:registry id="zk2" address="zookeeper://192.168.19.132:2181"/>
         <!-- 配置协议  默认是dubbo协议   支持多协议-->
-        <dubbo:protocol name="dubbo" port="20880"/>
-        <!--要暴露的服务-->
-        <dubbo:service interface="com.xiang.dubbo.IHelloService" ref="helloservice"/>
+        <dubbo:protocol name="dubbo" port="20881"/>
+        <!--要暴露的服务  指定注册中心,只会发布到指定的注册中心上-->
+        <dubbo:service interface="com.xiang.dubbo.IHelloService" ref="helloservice" registry="zk1"/>
         <!-- 服务对应的实现类-->
         <bean id="helloservice" class="com.xiang.dubbo.HelloServiceImpl"/>
 
